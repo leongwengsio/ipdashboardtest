@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Menu</title>
+    <style>
+        .button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .upload-form {
+            text-align: center;
+            margin: 20px auto;
+        }
+    </style>
+    <script>
+        function showIPConfigure() {
+            fetch('/show_ip_configure')
+                .then(response => response.text())
+                .then(html => {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Main Menu</h1>
+    <button class="button" onclick="showIPConfigure()">Show IP Configure</button>
+    <button class="button" onclick="location.href='mac_address.html'">MAC Address</button>
+    
+    <div class="upload-form">
+        <form action="http://127.0.0.1:5000/upload_excel" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx, .xls" required>
+            <button type="submit" class="button">Upload Excel File</button>
+        </form>
+    </div>
+
+
+    {% if alert_message %}
+    <script>
+        alert("{{ alert_message }}");
+    </script>
+    {% endif %}
+</body>
+</html>
